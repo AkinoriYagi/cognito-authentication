@@ -1,0 +1,53 @@
+@if (user) {
+<div class="container">
+  <div class="row w-100 vh-100 justify-content-center align-item-center">
+    <div class="auth-box">
+      @if (!isForgotPassword) {
+      <!-- sign-in -->
+      <div>
+        <div class="header">
+          <h2>Welcome Back</h2>
+          <h4>Log in to your account using email and password</h4>
+        </div>
+        <div class="form">
+          <input type="text" name="name" placeholder="Name" [(ngModel)]="user.name" autocomplete="off">
+          <input [type]="user.showPassword ? 'text' : 'password'" [(ngModel)]="user.password" name="password" placeholder="Password">
+          <div style="font-size: 12px; margin-top: 6px;">
+            <input type="checkbox" [checked]="user.showPassword" (change)="user.showPassword = !user.showPassword">
+            Show Passowrd
+          </div>
+          <p class="forgot-password" (click)="forgotPasswordClicked()">Forgot password?</p>
+          <p>Not a member? <a href="/sign-up">Sign Up</a></p>
+          <button (click)="signInWithCognito()">LOGIN</button>
+        </div>
+      </div>
+      } @else {
+        <!-- forgot password -->
+        @if (isForgotPassword) {
+        <div>
+          <div class="header">
+            <h2>Accout recovery</h2>
+            <h4>Verification code sent to <strong>{{user.email}}</strong></h4>
+          </div>
+
+          <div class="form">
+            <input type="text" placeholder="Enter verification code" name="verificationCode" [(ngModel)]="user.code">
+            <input [type]="user.showPassword ? 'text' : 'password'" [(ngModel)]="newPassword" name="password" placeholder="Enter New Password">
+            <div style="font-size: 12px; margin-top: 8px 0;">
+              <input type="checkbox" [checked]="user.showPassword" (change)="user.showPassword = !user.showPassword">
+              Show Passowrd
+            </div>
+            <button (click)="newPasswordSubmit()">SUBMIT NEW PASSWORD</button>
+          </div>
+        </div>
+        }
+      }
+    </div>
+  </div>
+</div>
+}
+
+<!-- Modal -->
+@if (showAlert) {
+<app-message-modal (modalClose)="showAlert=false"[message]="alertMessage"></app-message-modal>
+}
